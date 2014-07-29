@@ -11,9 +11,9 @@ names = []
 file_path = path.relpath('data/artists.txt')
 with open(file_path, 'r', encoding='utf8') as a:
     for line in a:
-        urls.append(line.split('\t')[2])
+        urls.append(unicode(line.split('\t')[2])+unicode('/+tags'))
         names.append(line.split('\t')[1])
-with open('intro.txt', 'w', encoding='utf8') as a, open('log.txt', 'w', encoding='utf8') as b:
+with open('tags.txt', 'w', encoding='utf8') as a, open('tagsLog.txt', 'w', encoding='utf8') as b:
     for index, url in enumerate(urls):
         print(index)
         a.write('\n' + '#' + unicode(index) + '\t' + unicode(names[index]) + '\n')
@@ -28,7 +28,7 @@ with open('intro.txt', 'w', encoding='utf8') as a, open('log.txt', 'w', encoding
                 b.write('socket timeout: ' + unicode(index) + '\t' + unicode(names[index]) + '\t' + unicode(url) + '\n')
                 continue
             break
-        intro = soup.find_all(lambda tag: tag.name == 'div' and tag.get('class') == ['wiki-text'])
+        intro = soup.find_all(lambda tag: tag.name == 'a' and tag.get('rel') == ['tag'])
         if intro:
             for i in intro:
                 lines = (unicode(i.get_text()).strip()).split('\n')
